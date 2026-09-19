@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Só precisamos ler mídia para IMPORTAR (o usuário escolhe via seletor de arquivos do sistema,
+         que não exige permissão em runtime nas versões modernas do Android). -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" android:maxSdkVersion="33" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" android:maxSdkVersion="33" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+    <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.GalleryKisser"
+        android:supportsRtl="true"
+        android:requestLegacyExternalStorage="false">
+
+        <activity
+            android:name=".ui.SplashLockActivity"
+            android:exported="true"
+            android:theme="@style/Theme.GalleryKisser.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GalleryKisser.NoActionBar" />
+
+        <activity
+            android:name=".ui.ViewerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GalleryKisser.Viewer" />
+
+        <activity
+            android:name=".ui.PinSetupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GalleryKisser.NoActionBar" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GalleryKisser.NoActionBar" />
+
+        <activity
+            android:name=".ui.SecureLockActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GalleryKisser.NoActionBar" />
+
+        <activity
+            android:name=".ui.EditPhotoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GalleryKisser.NoActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+</manifest>

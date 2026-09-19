@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Gallery Kisser</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_new_folder">Nova pasta</string>
+    <string name="menu_background">Plano de fundo</string>
+    <string name="menu_pin">Bloqueio por PIN</string>
+    <string name="menu_all_photos">Todas as fotos</string>
+    <string name="empty_gallery">Nenhuma foto ainda.\nToque em + para importar.</string>
+    <string name="add_media">Importar fotos/vídeos</string>
+    <string name="new_folder_hint">Nome da pasta</string>
+    <string name="create">Criar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="pin_enter">Digite o PIN</string>
+    <string name="pin_create">Crie um PIN de 4 dígitos</string>
+    <string name="pin_confirm">Confirme o PIN</string>
+    <string name="pin_wrong">PIN incorreto</string>
+    <string name="pin_mismatch">Os PINs não coincidem</string>
+    <string name="export_selected">Salvar no aparelho</string>
+    <string name="delete_selected">Excluir do app</string>
+    <string name="move_to_folder">Mover para pasta</string>
+    <string name="export_success">Salvo na galeria do aparelho</string>
+    <string name="delete_confirm_title">Excluir do Gallery Kisser?</string>
+    <string name="delete_confirm_msg">Isso apaga o arquivo apenas dentro do app. Não afeta cópias fora dele.</string>
+    <string name="choose_background_image">Escolher imagem</string>
+    <string name="reset_background">Remover plano de fundo</string>
+    <string name="pin_disable">Desativar PIN</string>
+    <string name="pin_enable">Ativar PIN</string>
+
+    <!-- Seleção -->
+    <string name="select_all">Selecionar todos</string>
+
+    <!-- Modo Seguro -->
+    <string name="move_to_secure">Mover para modo seguro</string>
+    <string name="remove_from_secure">Remover do modo seguro</string>
+    <string name="secure_mode">Modo seguro</string>
+    <string name="secure_mode_empty">Nada no modo seguro ainda.\nSelecione fotos na galeria normal e mova para cá.</string>
+    <string name="secure_needs_pin">Configure um PIN em Configurações antes de usar o modo seguro.</string>
+    <string name="secure_enter_pin">Digite o PIN para entrar no modo seguro</string>
+    <string name="moved_to_secure">Movido para o modo seguro</string>
+    <string name="removed_from_secure">Removido do modo seguro</string>
+
+    <!-- Visualizador: info, compartilhar, renomear -->
+    <string name="info_title">Informações</string>
+    <string name="info_template">Nome: %1$s\nTamanho: %2$s\nDimensões: %3$s\nAdicionado em: %4$s</string>
+    <string name="ok">OK</string>
+    <string name="rename">Renomear</string>
+    <string name="rename_done">Nome atualizado</string>
+    <string name="share_via">Compartilhar via</string>
+
+    <!-- Edição de fotos -->
+    <string name="edit_photo">Editar foto</string>
+    <string name="edit_rotate">Girar</string>
+    <string name="edit_crop">Cortar</string>
+    <string name="edit_add_text">Adicionar texto</string>
+    <string name="edit_confirm_crop">Aplicar corte</string>
+    <string name="edit_text_hint">Digite o texto</string>
+    <string name="edit_saved">Foto salva</string>
+    <string name="edit_discard_title">Descartar alterações?</string>
+    <string name="edit_discard_msg">Você editou essa foto mas ainda não salvou. Sair agora descarta as alterações.</string>
+    <string name="edit_discard">Descartar</string>
+    <string name="save">Salvar</string>
+
+    <!-- Tela de Configurações -->
+    <string name="settings_background_subtitle">Personalize o fundo da galeria</string>
+    <string name="settings_pin_subtitle">Proteja o app com um código de 4 dígitos</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_version_template">%1$s · versão %2$s</string>
+    <string name="settings_features_title">O que o app oferece</string>
+    <string name="settings_features_body">• Organize fotos e vídeos em pastas\n• Bloqueio por PIN\n• Plano de fundo personalizado\n• Zoom de até 32x nas fotos\n• Cortar, girar e adicionar texto às fotos\n• Compartilhar com outros apps\n• Modo seguro: uma galeria escondida e protegida por PIN</string>
+    <string name="settings_secure_subtitle">Uma galeria escondida, protegida por PIN</string>
+</resources>

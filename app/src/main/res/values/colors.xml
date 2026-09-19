@@ -1,0 +1,10 @@
+<resources>
+    <color name="gk_purple_dark">#2E1A5C</color>
+    <color name="gk_purple">#5B2A9E</color>
+    <color name="gk_lavender">#C9A9F0</color>
+    <color name="gk_pink">#F0217A</color>
+    <color name="gk_background">#160B2E</color>
+    <color name="gk_surface">#1F1240</color>
+    <color name="gk_white">#FDFBFF</color>
+    <color name="gk_text_secondary">#B9A9DE</color>
+</resources>
