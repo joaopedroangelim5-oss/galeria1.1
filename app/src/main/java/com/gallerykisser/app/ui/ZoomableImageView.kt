@@ -13,6 +13,10 @@ import androidx.appcompat.widget.AppCompatImageView
 /**
  * ImageView com zoom por pinça (pinch-to-zoom) de 1x até [MAX_SCALE], e arraste (pan)
  * quando a imagem está ampliada. Duplo toque alterna entre 1x e um zoom médio.
+ *
+ * IMPORTANTE: sempre trabalhamos numa CÓPIA nova da matriz (Matrix(imageMatrix)) antes de
+ * mudar e reatribuir. Se mutarmos o objeto que imageMatrix devolve e reatribuirmos ele
+ * mesmo, o ImageView entende que "nada mudou" (é o mesmo objeto) e nunca redesenha a tela.
  */
 class ZoomableImageView @JvmOverloads constructor(
     context: Context,
@@ -25,7 +29,6 @@ class ZoomableImageView @JvmOverloads constructor(
         private const val DOUBLE_TAP_SCALE = 4f
     }
 
-    private val matrixValues = FloatArray(9)
     private var currentScale = 1f
     private var lastFocusX = 0f
     private var lastFocusY = 0f
@@ -36,9 +39,11 @@ class ZoomableImageView @JvmOverloads constructor(
             val newScale = (currentScale * detector.scaleFactor).coerceIn(MIN_SCALE, MAX_SCALE)
             val factor = newScale / currentScale
             currentScale = newScale
-            imageMatrix = imageMatrix.apply {
-                postScale(factor, factor, detector.focusX, detector.focusY)
-            }
+
+            val newMatrix = Matrix(imageMatrix)
+            newMatrix.postScale(factor, factor, detector.focusX, detector.focusY)
+            imageMatrix = newMatrix
+
             clampTranslation()
             return true
         }
@@ -49,9 +54,11 @@ class ZoomableImageView @JvmOverloads constructor(
             val target = if (currentScale > MIN_SCALE + 0.01f) MIN_SCALE else DOUBLE_TAP_SCALE
             val factor = target / currentScale
             currentScale = target
-            imageMatrix = imageMatrix.apply {
-                postScale(factor, factor, e.x, e.y)
-            }
+
+            val newMatrix = Matrix(imageMatrix)
+            newMatrix.postScale(factor, factor, e.x, e.y)
+            imageMatrix = newMatrix
+
             clampTranslation()
             return true
         }
@@ -90,10 +97,10 @@ class ZoomableImageView @JvmOverloads constructor(
         val scale = minOf(width / dw, height / dh)
         val dx = (width - dw * scale) / 2f
         val dy = (height - dh * scale) / 2f
-        imageMatrix = Matrix().apply {
-            postScale(scale, scale)
-            postTranslate(dx, dy)
-        }
+        val newMatrix = Matrix()
+        newMatrix.postScale(scale, scale)
+        newMatrix.postTranslate(dx, dy)
+        imageMatrix = newMatrix
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -114,7 +121,11 @@ class ZoomableImageView @JvmOverloads constructor(
                 if (!scaleDetector.isInProgress && activePointers == 1 && currentScale > MIN_SCALE + 0.01f) {
                     val dx = event.x - lastFocusX
                     val dy = event.y - lastFocusY
-                    imageMatrix = imageMatrix.apply { postTranslate(dx, dy) }
+
+                    val newMatrix = Matrix(imageMatrix)
+                    newMatrix.postTranslate(dx, dy)
+                    imageMatrix = newMatrix
+
                     clampTranslation()
                     lastFocusX = event.x
                     lastFocusY = event.y
@@ -134,21 +145,21 @@ class ZoomableImageView @JvmOverloads constructor(
     /** Evita que a imagem seja arrastada para fora da tela quando ampliada. */
     private fun clampTranslation() {
         val drawableRef = drawable ?: return
-        val matrix = imageMatrix
-        matrix.getValues(matrixValues)
+        val values = FloatArray(9)
+        imageMatrix.getValues(values)
 
-        val drawableWidth = drawableRef.intrinsicWidth * matrixValues[android.graphics.Matrix.MSCALE_X]
-        val drawableHeight = drawableRef.intrinsicHeight * matrixValues[android.graphics.Matrix.MSCALE_Y]
+        val drawableWidth = drawableRef.intrinsicWidth * values[Matrix.MSCALE_X]
+        val drawableHeight = drawableRef.intrinsicHeight * values[Matrix.MSCALE_Y]
 
         var dx = 0f
         var dy = 0f
 
         if (drawableWidth <= width) {
-            dx = (width - drawableWidth) / 2f - matrixValues[android.graphics.Matrix.MTRANS_X]
+            dx = (width - drawableWidth) / 2f - values[Matrix.MTRANS_X]
         } else {
             val minX = width - drawableWidth
             val maxX = 0f
-            val currentX = matrixValues[android.graphics.Matrix.MTRANS_X]
+            val currentX = values[Matrix.MTRANS_X]
             dx = when {
                 currentX > maxX -> maxX - currentX
                 currentX < minX -> minX - currentX
@@ -157,11 +168,11 @@ class ZoomableImageView @JvmOverloads constructor(
         }
 
         if (drawableHeight <= height) {
-            dy = (height - drawableHeight) / 2f - matrixValues[android.graphics.Matrix.MTRANS_Y]
+            dy = (height - drawableHeight) / 2f - values[Matrix.MTRANS_Y]
         } else {
             val minY = height - drawableHeight
             val maxY = 0f
-            val currentY = matrixValues[android.graphics.Matrix.MTRANS_Y]
+            val currentY = values[Matrix.MTRANS_Y]
             dy = when {
                 currentY > maxY -> maxY - currentY
                 currentY < minY -> minY - currentY
@@ -170,8 +181,9 @@ class ZoomableImageView @JvmOverloads constructor(
         }
 
         if (dx != 0f || dy != 0f) {
-            matrix.postTranslate(dx, dy)
-            imageMatrix = matrix
+            val newMatrix = Matrix(imageMatrix)
+            newMatrix.postTranslate(dx, dy)
+            imageMatrix = newMatrix
         }
     }
 }
